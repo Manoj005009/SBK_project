@@ -1,16 +1,17 @@
 from flask import Flask, render_template, request, jsonify, url_for
-import psycopg2
+import psycopg
 import os
 
 app = Flask(__name__)
 
 # 🔥 PostgreSQL Connection (Render)
-conn = psycopg2.connect(
+conn = psycopg.connect(
     host=os.environ.get("DB_HOST"),
     dbname=os.environ.get("DB_NAME"),
     user=os.environ.get("DB_USER"),
     password=os.environ.get("DB_PASS"),
-    port=os.environ.get("DB_PORT", 5432)
+    port=os.environ.get("DB_PORT", 5432),
+    sslmode="require"
 )
 
 cursor = conn.cursor()
@@ -25,15 +26,16 @@ def form(token):
 
 @app.route("/check_unique", methods=["POST"])
 def check_unique():
-    field = request.json.get("field")
-    value = request.json.get("value")
+    data = request.get_json()
+    field = data.get("field")
+    value = data.get("value")
 
     allowed_fields = ["user_id", "email", "phone"]
 
     if field not in allowed_fields:
         return jsonify({"exists": False})
 
-    query = f"SELECT * FROM users WHERE {field} = %s"
+    query = f"SELECT 1 FROM users WHERE {field} = %s"
     cursor.execute(query, (value,))
     result = cursor.fetchone()
 
@@ -81,4 +83,4 @@ def submit(token):
     )
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run()
