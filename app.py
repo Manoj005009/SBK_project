@@ -1,15 +1,16 @@
 from flask import Flask, render_template, request, jsonify, url_for
-import psycopg
+import psycopg2
 import os
 
 app = Flask(__name__)
 
 # 🔥 PostgreSQL Connection (Render)
-conn = psycopg.connect(
+conn = psycopg2.connect(
     host=os.environ.get("DB_HOST"),
     dbname=os.environ.get("DB_NAME"),
     user=os.environ.get("DB_USER"),
-    password=os.environ.get("DB_PASS")
+    password=os.environ.get("DB_PASS"),
+    port=os.environ.get("DB_PORT", 5432)
 )
 
 cursor = conn.cursor()
@@ -80,6 +81,4 @@ def submit(token):
     )
 
 if __name__ == "__main__":
-    app.run(debug=False)
-
-
+    app.run(host="0.0.0.0", port=10000)
