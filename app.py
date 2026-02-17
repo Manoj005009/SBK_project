@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, url_for
-import psycopg2
+import psycopg
 import os
 
 app = Flask(__name__)
@@ -81,4 +81,5 @@ def submit(token):
 
 if __name__ == "__main__":
     app.run(debug=False)
+
 
