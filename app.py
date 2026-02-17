@@ -5,9 +5,9 @@ import os
 app = Flask(__name__)
 
 # 🔥 PostgreSQL Connection (Render)
-conn = psycopg2.connect(
+conn = psycopg.connect(
     host=os.environ.get("DB_HOST"),
-    database=os.environ.get("DB_NAME"),
+    dbname=os.environ.get("DB_NAME"),
     user=os.environ.get("DB_USER"),
     password=os.environ.get("DB_PASS")
 )
@@ -81,3 +81,4 @@ def submit(token):
 
 if __name__ == "__main__":
     app.run(debug=False)
+
