@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>THEME TOKEN</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 40px;
+            font-size: 30px;
+        }
+
+        .btn-container {
+            display: grid;
+            grid-template-columns: repeat(2, 180px);
+            gap: 30px;
+            justify-content: center;
+        }
+
+        a { text-decoration: none; }
+
+        .btn {
+            position: relative;
+            width: 180px;
+            height: 55px;
+            background: black;
+            color: white;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            z-index: 0;
+        }
+
+        /* BORDER GLOW */
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 15px;
+            background: linear-gradient(
+                90deg,
+                red, orange, yellow, lime,
+                cyan, blue, magenta, red
+            );
+            background-size: 300%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            filter: blur(33px);
+        }
+
+        .btn:hover::before {
+            opacity: 1;
+            animation: borderRun 3s linear infinite;
+        }
+
+        @keyframes borderRun {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+
+        .btn:hover {
+            transform: scale(1.08);
+        }
+
+        .center-wrapper {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>THEME TOKEN</h2>
+
+<div class="btn-container">
+    <button class="btn" onclick="openForm(1)">TOKEN 1</button>
+    <button class="btn" onclick="openForm(2)">TOKEN 2</button>
+    <button class="btn" onclick="openForm(3)">TOKEN 3</button>
+    <button class="btn" onclick="openForm(4)">TOKEN 4</button>
+    <button class="btn" onclick="openForm(5)">TOKEN 5</button>
+    <button class="btn" onclick="openForm(6)">TOKEN 6</button>
+    <button class="btn" onclick="openForm(7)">TOKEN 7</button>
+    <button class="btn" onclick="openForm(8)">TOKEN 8</button>
+    <button class="btn" onclick="openForm(9)">TOKEN 9</button>
+    <button class="btn" onclick="openForm(10)">TOKEN 10</button>
+    <button class="btn" onclick="openForm(11)">TOKEN 11</button>
+    <button class="btn" onclick="openForm(12)">TOKEN 12</button>
+    <button class="btn" onclick="openForm(13)">TOKEN 13</button>
+    <button class="btn" onclick="openForm(14)">TOKEN 14</button>
+</div>
+
+<div class="center-wrapper">
+    <button class="btn" onclick="openForm(15)">TOKEN 15</button>
+</div>
+
+<script>
+function openForm(tokenNumber) {
+    window.location.href = "/form/" + tokenNumber;
+
+}
+</script>
+
+</body>
+</html>

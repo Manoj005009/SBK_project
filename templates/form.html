@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Page</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;             
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .form-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 350px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #ff4b5c;
+        }
+
+        /* ✅ FIXED HERE */
+        label {
+            font-weight: bold;
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #ff4b5c;
+            box-shadow: 0 0 5px #ff4b5c;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #ff4b5c;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #ff1e3c;
+            transform: scale(1.05);
+        }
+
+        /* ✅ FIXED HERE */
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            display: block;
+            min-height: 16px;
+            animation: shake 0.3s ease;
+        }
+
+        .input-error {
+            border-color: red !important;
+            box-shadow: 0 0 5px red !important;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(-5px); }
+            25% { transform: translateX(5px); }
+            50% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-box">
+        <h2>Please Enter your Details</h2>
+
+        <form method="POST" action="/submit/{{ token }}" id="userForm">
+
+            <label>LOT NUMBER:</label>
+            <input type="text" name="user_id" id="user_id" required placeholder="Enter your LOT_NUM">
+            <small id="error_user_id" class="error"></small>
+
+            <label>PHONE NUMBER:</label>
+            <input type="number" name="phone" id="phone" required placeholder="Enter your phone number">
+            <small id="error_phone" class="error"></small>
+
+            <label>EMAIL:</label>
+            <input type="email" name="email" id="email" required placeholder="Enter your MAIL_ID">
+            <small id="error_email" class="error"></small>
+
+            <button type="submit">Next</button>
+
+        </form>
+    </div>
+
+<script>
+document.querySelectorAll("input").forEach(input => {
+
+    input.addEventListener("blur", function() {
+
+        let field = input.name;
+        let value = input.value;
+
+        if(value.trim() === "") return;
+
+        fetch("/check_unique", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({field: field, value: value})
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            const errorBox = document.getElementById("error_" + field);
+
+            if(data.exists){
+                errorBox.textContent = field.toUpperCase() + " already exists!";
+                input.classList.add("input-error");
+            } else {
+                errorBox.textContent = "";
+                input.classList.remove("input-error");
+            }
+
+        });
+
+    });
+
+});
+
+document.getElementById("userForm").addEventListener("submit", function(e) {
+
+    let hasError = false;
+
+    document.querySelectorAll("small").forEach(err => {
+        if(err.textContent.trim() !== "") hasError = true;
+    });
+
+    if(hasError){
+        e.preventDefault();
+    }
+
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        /* 🔥 Animated Text Style */
+        .animated-text {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideFade 1s ease forwards;
+            background: linear-gradient(90deg, #f00202, #000, #ffffff);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation-delay: 0.5s;
+        }
+
+
+        .label {
+            color: black;
+            -webkit-text-fill-color: black; /* override gradient */
+            background: none;
+}
+
+
+        /* Different delays for each line */
+        .delay1 { animation-delay: 0.3s; }
+        .delay2 { animation-delay: 0.6s; }
+        .delay3 { animation-delay: 0.9s; }
+
+        @keyframes slideFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                background-position: 200%;
+            }
+        }
+
+        img {
+            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            animation: zoomIn 1s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #ff4b5c, #ff9068);
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            transition: 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .back-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .back-btn:active {
+            transform: scale(0.95);
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h2>Details Stored Successfully!</h2>
+
+<p class="animated-text delay1">
+    <span class="label">LOT NUM:</span> {{ user_id }}
+</p>
+
+<p class="animated-text delay2">
+    <span class="label">EMAIL:</span> {{ email }}
+</p>
+
+<p class="animated-text delay3">
+    <span class="label">CONTENT:</span> {{ content }}
+</p>
+
+
+
+    <img src="{{ url_for('static', filename='images/' + image) }}" width="300">
+
+    <br><br>
+
+    <a href="/" class="back-btn">⬅ Go Back</a>
+
+</body>
+</html>
